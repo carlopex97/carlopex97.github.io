@@ -22,8 +22,8 @@ class Game {
     this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
     this.ball.y = this.paddle.y - this.ball.h;
     this.draw();
-    if(!this.started){
-      this.firstStart()
+    if (!this.started) {
+      this.firstStart();
     }
     document.addEventListener("keydown", (event) => {
       if (this.spacepressed === true) {
@@ -71,20 +71,23 @@ class Game {
   }
 
   firstStart() {
-    this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
-    this.ball.y = this.paddle.y - this.ball.h;
-    this.startInterval = setInterval(() => {
-      this.clear();
-      this.paddle.move();
-      this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
-      this.draw();
+    if (!this.started) {
+      this.ball.x =
+        this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
+      this.ball.y = this.paddle.y - this.ball.h;
       document.addEventListener("keydown", (event) => {
         if (event.keyCode === 32) {
-          this.started = true
+          this.started = true;
         }
-    }, 1000 / 60);
-    
-    })
+      });
+      this.startInterval = setInterval(() => {
+        this.clear();
+        this.paddle.move();
+        this.ball.x =
+          this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
+        this.draw();
+      }, 1000 / 60);
+    }
   }
 
   clear() {
@@ -117,7 +120,6 @@ class Game {
     for (const brick of this.brickWall.bricks) {
       const collision = this.ball.collidesWith(brick);
       if (brick.active && collision) {
-        
         console.log(collision);
 
         if (!done) {
