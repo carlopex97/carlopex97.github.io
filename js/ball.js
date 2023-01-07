@@ -69,14 +69,14 @@ class Ball {
 
     return "colx";
 
-    if (this.x > element.x && this.x < element.x + element.w) {
+    /*if (this.x > element.x && this.x < element.x + element.w) {
       // identificar derecha o izquierda
       return "colx";
     }
     if (this.y > element.y && this.y < element.y + element.h) {
       // identificar arriba o abajo
       return "coly";
-    }
+    }*/
 
     // return false, "colx"¨or "coly"
   }

@@ -11,7 +11,7 @@ class Game {
     this.lives = 9999;
     this.score = 0;
     this.paused = false;
-
+    this.started = false;
     this.gameOverAudio = new Audio("/resources/sounds/ArkanoidGameOver.wav");
     this.lifeLostAudio = new Audio("/resources/sounds/ArkanoidBottomSound.wav");
   }
@@ -21,9 +21,10 @@ class Game {
     this.initListeners();
     this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
     this.ball.y = this.paddle.y - this.ball.h;
-    this.clear();
     this.draw();
-    //this.firstStart()
+    if(!this.started){
+      this.firstStart()
+    }
     document.addEventListener("keydown", (event) => {
       if (this.spacepressed === true) {
         return;
@@ -41,11 +42,10 @@ class Game {
           this.draw();
           this.checkCollisions();
           this.move();
-          this.ctx.font = "18px Comic Sans MS";
+          this.ctx.font = "18px Arial";
           this.ctx.fillStyle = "red";
           this.ctx.fillText("Vidas: " + this.lives, 10, 330);
           this.ctx.fillText("Score: " + this.score, 500, 330);
-          console.log(this.paused);
         }, 1000 / 60);
       }
     });
@@ -73,13 +73,18 @@ class Game {
   firstStart() {
     this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
     this.ball.y = this.paddle.y - this.ball.h;
-    this.interval = setInterval(() => {
+    this.startInterval = setInterval(() => {
       this.clear();
       this.paddle.move();
-      this.ball.x =
-        this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
+      this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
       this.draw();
+      document.addEventListener("keydown", (event) => {
+        if (event.keyCode === 32) {
+          this.started = true
+        }
     }, 1000 / 60);
+    
+    })
   }
 
   clear() {
@@ -112,6 +117,7 @@ class Game {
     for (const brick of this.brickWall.bricks) {
       const collision = this.ball.collidesWith(brick);
       if (brick.active && collision) {
+        
         console.log(collision);
 
         if (!done) {
