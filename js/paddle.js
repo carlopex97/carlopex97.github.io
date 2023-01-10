@@ -2,7 +2,7 @@ class Paddle {
   constructor(ctx) {
     this.ctx = ctx;
     this.h = 12;
-    this.w = 70;
+    this.w = 75;
     this.y = this.ctx.canvas.height - (this.h + 20);
     this.x = (this.ctx.canvas.width - this.w) / 2;
     this.vx = 0;
@@ -48,10 +48,10 @@ class Paddle {
     console.log(key);
     switch (key) {
       case 39:
-        this.vx = 5;
+        this.vx = 6;
         break;
       case 37:
-        this.vx = -5;
+        this.vx = -6;
         break;
     }
   }

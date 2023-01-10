@@ -23,7 +23,8 @@ class Game {
     this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
     this.ball.y = this.paddle.y - this.ball.h;
     this.draw();
-    this.soundtrack.loop='true';
+    this.soundtrack.volume = "0.03";
+    this.soundtrack.loop = "true";
     this.soundtrack.play();
     document.addEventListener("keydown", (event) => {
       if (this.spacepressed === true) {
@@ -112,6 +113,11 @@ class Game {
     if (this.ball.collidesWith(this.paddle)) {
       this.ball.collider(this.paddle);
       this.ball.vy = this.ball.vy * -1;
+      const brickCollisionAudio = new Audio(
+        "/resources/sounds/Arkanoid SFX (1).wav"
+      );
+      brickCollisionAudio.volume = "0.1";
+      brickCollisionAudio.play();
     }
     for (const brick of this.brickWall.bricks) {
       const collision = this.ball.collidesWith(brick);
@@ -152,20 +158,15 @@ class Game {
     }
   }
 
-  win(ctx, game) {
-    if (this.brickWall.bricks.every((brick) => !brick.active)) {
-      clearInterval(game.interval);
-      ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
-      ctx.fillStyle = "white";
-      ctx.font = "60px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("Felicidades has ganado", ctx.canvas.width/2, ctx.canvas.height/2);
-      ctx.font = "20px Arial";
-      ctx.fillText("Score: " + this.score, ctx.canvas.width/2, ctx.canvas.height/2 + 30);
-      ctx.fillText("Presiona F5 para jugar otra vez", ctx.canvas.width/2, ctx.canvas.height/2 + 60);
+  win() {
+    {
+      if (this.brickWall.bricks.every((brick) => !brick.active)) {
+        alert(
+          `Felicidades, has ganado \n Pulsa F5 para volver a jugar \n Tu Score ha sido de ${this.score}`
+        );
+        this.soundtrack.pause();
+      }
     }
-  
-  
   }
   gameOverScreen() {
     this.stop();
@@ -173,9 +174,18 @@ class Game {
     this.ctx.font = "30px Arial";
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
-    this.ctx.fillText("Game Over", this.ctx.canvas.width/2, this.ctx.canvas.height/2);
+    this.ctx.fillText(
+      "Game Over",
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2
+    );
     this.ctx.font = "20px Arial";
-    this.ctx.fillText("Press F5 to play again", this.ctx.canvas.width/2, this.ctx.canvas.height/2 + 30);}
+    this.ctx.fillText(
+      "Press F5 to play again",
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2 + 30
+    );
+  }
   togglePause() {
     if (!DEBUG) {
       pauseButton.style.display = "none";

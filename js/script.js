@@ -8,7 +8,7 @@ btn.onclick = () => {
   /*const start = document.getElementById("start-btn");*/
   btn.style.visibility = "hidden";
   canvas.style.visibility = "visible";
-  
+
   game.start();
 };
 const pauseButton = document.getElementById("pause-button");

@@ -6,8 +6,8 @@ class Ball {
     this.y = this.ctx.canvas.height - 40;
     this.h = this.ballRadius;
     this.w = this.ballRadius;
-    this.vx = 2.5;
-    this.vy = 3;
+    this.vx = 3.25;
+    this.vy = 3.5;
     this.image = new Image();
     this.image.src = "/resources/img/ball.png";
   }
@@ -29,18 +29,30 @@ class Ball {
     if (this.y <= 0) {
       this.vy *= -1;
       this.y = 0;
+      const wallCollisionAudio = new Audio("/resources/sounds/wall_hit.wav");
+      wallCollisionAudio.volume = "0.1";
+      wallCollisionAudio.play();
     }
     if (this.y + this.ballRadius >= this.ctx.canvas.height) {
       this.vy *= -1;
       this.y = this.ctx.canvas.height - this.ballRadius;
+      const wallCollisionAudio = new Audio("/resources/sounds/wall_hit.wav");
+      wallCollisionAudio.volume = "0.1";
+      wallCollisionAudio.play();
     }
     if (this.x <= 0) {
       this.vx *= -1;
       this.x = 0;
+      const wallCollisionAudio = new Audio("/resources/sounds/wall_hit.wav");
+      wallCollisionAudio.volume = "0.1";
+      wallCollisionAudio.play();
     }
     if (this.x + this.ballRadius >= this.ctx.canvas.width) {
       this.vx *= -1;
       this.x = this.ctx.canvas.width - this.ballRadius;
+      const wallCollisionAudio = new Audio("/resources/sounds/wall_hit.wav");
+      wallCollisionAudio.volume = "0.1";
+      wallCollisionAudio.play();
     }
   }
 
