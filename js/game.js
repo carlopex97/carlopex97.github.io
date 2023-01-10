@@ -22,9 +22,7 @@ class Game {
     this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
     this.ball.y = this.paddle.y - this.ball.h;
     this.draw();
-    if (!this.started) {
-      this.firstStart();
-    }
+    
     document.addEventListener("keydown", (event) => {
       if (this.spacepressed === true) {
         return;
@@ -75,11 +73,7 @@ class Game {
       this.ball.x =
         this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
       this.ball.y = this.paddle.y - this.ball.h;
-      document.addEventListener("keydown", (event) => {
-        if (event.keyCode === 32) {
-          this.started = true;
-        }
-      });
+      
       this.startInterval = setInterval(() => {
         this.clear();
         this.paddle.move();
