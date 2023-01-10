@@ -3,17 +3,18 @@ class Game {
     this.ctx = ctx;
     this.interval = null;
     this.startInterval = null;
-    this.brick = new Brick(ctx);
-    this.brickWall = new BrickWall(ctx);
-    this.paddle = new Paddle(ctx);
-    this.ball = new Ball(ctx);
-    this.background = new Background(ctx);
+    this.brick = new Brick(this.ctx);
+    this.brickWall = new BrickWall(this.ctx);
+    this.paddle = new Paddle(this.ctx);
+    this.ball = new Ball(this.ctx);
+    this.background = new Background(this.ctx);
     this.lives = 3;
     this.score = 0;
     this.paused = false;
     this.started = false;
     this.gameOverAudio = new Audio("/resources/sounds/ArkanoidGameOver.wav");
     this.lifeLostAudio = new Audio("/resources/sounds/ArkanoidBottomSound.wav");
+    this.soundtrack = new Audio("/resources/sounds/ArkanoidBSO.mp3");
   }
 
   start() {
@@ -22,7 +23,8 @@ class Game {
     this.ball.x = this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
     this.ball.y = this.paddle.y - this.ball.h;
     this.draw();
-    
+    this.soundtrack.loop='true';
+    this.soundtrack.play();
     document.addEventListener("keydown", (event) => {
       if (this.spacepressed === true) {
         return;
@@ -152,23 +154,27 @@ class Game {
 
   win() {
     if (this.brickWall.bricks.every((brick) => !brick.active)) {
-      alert("Felicidades has ganado");
-      this.brickWall = new BrickWall(ctx);
-      
-      game.start();
+      this.stop();
+      this.ctx.fillStyle = "white";
+      this.ctx.font = "30px Arial";
+      this.ctx.textAlign = "center";
+      this.ctx.textBaseline = "middle";
+      this.ctx.fillText("Felicidades, has ganado", this.ctx.canvas.width/2, this.ctx.canvas.height/2 -30);
+      this.ctx.fillText("Tu score fue: " + this.score , this.ctx.canvas.width/2, this.ctx.canvas.height/2);
+      this.ctx.font = "20px Arial";
+      this.ctx.fillText("Press F5 to play again", this.ctx.canvas.width/2, this.ctx.canvas.height/2 + 30);
     }
+  
   }
   gameOverScreen() {
-    this.stop(); // para detener el loop de juego
-    this.clear(); // para limpiar el canvas
-    let image = new Image();
-    image.src = "/resources/img/gameover.png";
-    this.ctx.drawImage(image, 0, 0); //para dibujar una imagen
-    this.ctx.fillStyle = 'black';
-    this.ctx.font = "40px Arial";
-    this.ctx.fillText("Score: " + this.score, 270, 250);
+    this.stop();
+    this.ctx.fillStyle = "white";
+    this.ctx.font = "30px Arial";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.fillText("Game Over", this.ctx.canvas.width/2, this.ctx.canvas.height/2);
     this.ctx.font = "20px Arial";
-    this.ctx.fillText("Presiona F5 para volver a jugar", 240, 300);}
+    this.ctx.fillText("Press F5 to play again", this.ctx.canvas.width/2, this.ctx.canvas.height/2 + 30);}
   togglePause() {
     if (!DEBUG) {
       pauseButton.style.display = "none";
