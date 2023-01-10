@@ -8,7 +8,7 @@ class Game {
     this.paddle = new Paddle(ctx);
     this.ball = new Ball(ctx);
     this.background = new Background(ctx);
-    this.lives = 9999;
+    this.lives = 3;
     this.score = 0;
     this.paused = false;
     this.started = false;
@@ -65,10 +65,10 @@ class Game {
   gameOver() {
     console.log("Game over!");
     this.gameOverAudio.play();
-    this.stop();
+    this.gameOverScreen();
   }
 
-  firstStart() {
+  /*firstStart() {
     if (!this.started) {
       this.ball.x =
         this.paddle.x + this.paddle.w / 2 - this.ball.ballRadius / 2;
@@ -82,7 +82,7 @@ class Game {
         this.draw();
       }, 1000 / 60);
     }
-  }
+  }*/
 
   clear() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
@@ -154,9 +154,21 @@ class Game {
     if (this.brickWall.bricks.every((brick) => !brick.active)) {
       alert("Felicidades has ganado");
       this.brickWall = new BrickWall(ctx);
+      
       game.start();
     }
   }
+  gameOverScreen() {
+    this.stop(); // para detener el loop de juego
+    this.clear(); // para limpiar el canvas
+    let image = new Image();
+    image.src = "/resources/img/gameover.png";
+    this.ctx.drawImage(image, 0, 0); //para dibujar una imagen
+    this.ctx.fillStyle = 'black';
+    this.ctx.font = "40px Arial";
+    this.ctx.fillText("Score: " + this.score, 270, 250);
+    this.ctx.font = "20px Arial";
+    this.ctx.fillText("Presiona F5 para volver a jugar", 240, 300);}
   togglePause() {
     if (!DEBUG) {
       pauseButton.style.display = "none";

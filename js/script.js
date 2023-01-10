@@ -5,10 +5,10 @@ const game = new Game(ctx);
 
 const btn = document.getElementById("start-btn");
 btn.onclick = () => {
-  const intro = document.getElementById("intro");
-  intro.remove();
-  canvas.style.display = "block";
-  btn.style.display = "none";
+  /*const start = document.getElementById("start-btn");*/
+  btn.style.visibility = "hidden";
+  canvas.style.visibility = "visible";
+  
   game.start();
 };
 const pauseButton = document.getElementById("pause-button");

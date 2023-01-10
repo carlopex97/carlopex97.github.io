@@ -6,7 +6,7 @@ class Ball {
     this.y = this.ctx.canvas.height - 40;
     this.h = this.ballRadius;
     this.w = this.ballRadius;
-    this.vx = 3;
+    this.vx = 2.5;
     this.vy = 3;
     this.image = new Image();
     this.image.src = "/resources/img/ball.png";
