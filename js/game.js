@@ -38,7 +38,7 @@ class Game {
             return;
           }
           this.clear();
-          this.win();
+          this.win(this.ctx, this);
           this.draw();
           this.checkCollisions();
           this.move();
@@ -152,18 +152,19 @@ class Game {
     }
   }
 
-  win() {
+  win(ctx, game) {
     if (this.brickWall.bricks.every((brick) => !brick.active)) {
-      this.stop();
-      this.ctx.fillStyle = "white";
-      this.ctx.font = "30px Arial";
-      this.ctx.textAlign = "center";
-      this.ctx.textBaseline = "middle";
-      this.ctx.fillText("Felicidades, has ganado", this.ctx.canvas.width/2, this.ctx.canvas.height/2 -30);
-      this.ctx.fillText("Tu score fue: " + this.score , this.ctx.canvas.width/2, this.ctx.canvas.height/2);
-      this.ctx.font = "20px Arial";
-      this.ctx.fillText("Press F5 to play again", this.ctx.canvas.width/2, this.ctx.canvas.height/2 + 30);
+      clearInterval(game.interval);
+      ctx.clearRect(0,0, ctx.canvas.width, ctx.canvas.height);
+      ctx.fillStyle = "white";
+      ctx.font = "60px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("Felicidades has ganado", ctx.canvas.width/2, ctx.canvas.height/2);
+      ctx.font = "20px Arial";
+      ctx.fillText("Score: " + this.score, ctx.canvas.width/2, ctx.canvas.height/2 + 30);
+      ctx.fillText("Presiona F5 para jugar otra vez", ctx.canvas.width/2, ctx.canvas.height/2 + 60);
     }
+  
   
   }
   gameOverScreen() {
